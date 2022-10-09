@@ -2,6 +2,7 @@ module.exports = {
   root: true,
   env: {
     browser: true,
+    'jest/globals': true,
     node: true
   },
   parserOptions: {
@@ -13,6 +14,7 @@ module.exports = {
     'plugin:nuxt/recommended'
   ],
   plugins: [
+    'jest'
   ],
   // add your custom rules here
   rules: {}
