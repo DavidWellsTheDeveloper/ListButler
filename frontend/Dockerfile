@@ -1,8 +1,13 @@
 FROM node:lts-alpine
-WORKDIR /usr/src/app
-COPY frontend/package*.json ./
+RUN mkdir -p /usr/src/frontend
+WORKDIR /usr/src/frontend
+
+RUN apk update && apk upgrade
+RUN apk add git
+
+COPY frontend ./
+
 RUN npm install
-COPY frontend/ ./
 RUN npm run build
 RUN npm run generate
 
@@ -12,4 +17,5 @@ EXPOSE 3000
 
 ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=3000
+
 CMD ["npm", "start"]
