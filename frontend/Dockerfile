@@ -5,5 +5,5 @@ RUN npm install
 COPY frontend/ ./
 RUN npm run build
 WORKDIR /usr/src/app/dist
-EXPOSE 3000
+EXPOSE 8080
 CMD ["npm", "run", "start"]
