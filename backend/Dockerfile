@@ -10,10 +10,10 @@ RUN mkdir /django_api
 WORKDIR /django_api
 # Copies from your local machine's current directory to the django_api folder 
 # in the Docker image
-COPY . .
+COPY backend/ .
 # Copy the requirements.txt file adjacent to the Dockerfile 
 # to your Docker image
-COPY ./requirements.txt /requirements.txt
+COPY backend/requirements.txt /requirements.txt
 # Install the requirements.txt file in Docker image
 RUN pip install -r /requirements.txt
 # Create a user that can run your container
