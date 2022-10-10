@@ -11,7 +11,7 @@ RUN npm install
 RUN npm run build
 RUN npm run generate
 
-WORKDIR /usr/src/app/dist
+WORKDIR /usr/src/frontend/dist
 
 EXPOSE 3000
 
