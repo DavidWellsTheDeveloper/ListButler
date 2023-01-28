@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +25,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'listbutlers.com']
 
 
 # Application definition
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # Apps
+    'user',
     'ListButlers'
 ]
 
@@ -58,6 +60,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
 )
 
 ROOT_URLCONF = 'api.urls'
@@ -123,6 +126,18 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=20),
+}
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 
 # Static files (CSS, JavaScript, Images)

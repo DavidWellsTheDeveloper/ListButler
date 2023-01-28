@@ -1,3 +1,5 @@
+const development = process.env.NODE_ENV !== 'production'
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -17,8 +19,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: ['~/assets/scss/style.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -30,24 +31,62 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    // '@nuxtjs/eslint-module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
-    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/auth-next',
     '@nuxtjs/axios'
   ],
 
+  bootstrapVue: {
+    icons: true
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
+    baseURL: development
+      ? 'http://localhost:8000'
+      : 'https://listbutlers.com/api',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+
+  middleware: 'auth',
+
+  auth: {
+    strategies: {
+      // JWT token auth
+      local: {
+        scheme: 'refresh',
+        endpoints: {
+          login: {
+            url: '/api/token/',
+            method: 'post',
+            propertyName: 'access',
+          },
+          refreshToken: {
+            url: 'api/token/refresh/',
+            method: 'post',
+            property: 'refresh',
+          },
+          logout: false,
+          user: {
+            url: '/user/users/',
+            method: 'get',
+            propertyName: false,
+          },
+        },
+      },
+    },
+  },
+  router: {
+    // By default, views will require login.
+    middleware: ['auth'],
+  },
 }
