@@ -9,3 +9,7 @@ class ListViewSet(viewsets.ModelViewSet):
 class ListItemViewSet(viewsets.ModelViewSet):
     serializer_class = ListItemSerializer
     queryset = ListItem.objects.all()
+
+class ListUserViewSet(viewsets.ModelViewSet):
+    serializer_class = ListUserSerializer
+    queryset = ListUser.objects.all()

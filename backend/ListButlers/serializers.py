@@ -6,7 +6,7 @@ class ListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = List
-        fields = ('id', 'name', 'owner', 'shared', 'item_count')
+        fields = ('id', 'name', 'shared', 'item_count')
 
     def get_item_count(self, obj):
         return obj.list_items.count()
@@ -17,3 +17,10 @@ class ListItemSerializer(serializers.ModelSerializer):
         model = ListItem
         # depth = 1
         fields = ('id', 'text', 'list', 'addedBy')
+
+class ListUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ListUser
+        # depth = 1
+        fields = ('id', 'list', 'user', 'owner')
