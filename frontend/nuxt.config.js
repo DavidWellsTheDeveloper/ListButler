@@ -38,7 +38,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
-    '@nuxtjs/auth-next',
+    '@nuxtjs/auth',
     '@nuxtjs/axios'
   ],
 
@@ -63,7 +63,15 @@ export default {
     strategies: {
       // JWT token auth
       local: {
-        scheme: 'refresh',
+        token: {
+          property: "access",
+          global: true,
+          type: "Bearer",
+          required: true
+        },
+        user: {
+          property: 'user'
+        },
         endpoints: {
           login: {
             url: '/api/token/',
@@ -73,7 +81,7 @@ export default {
           refreshToken: {
             url: 'api/token/refresh/',
             method: 'post',
-            property: 'refresh',
+            propertyName: 'refresh',
           },
           logout: false,
           user: {
@@ -82,6 +90,10 @@ export default {
             propertyName: false,
           },
         },
+      },
+      redirect: {
+        login: '/login',
+        home: '/',
       },
     },
   },

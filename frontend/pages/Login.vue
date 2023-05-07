@@ -16,7 +16,7 @@
           </b-input-group>
           <b-input-group>
             <b-input-group-prepend is-text>
-                <b-icon icon="shield-lock"></b-icon>
+              <b-icon icon="shield-lock"></b-icon>
             </b-input-group-prepend>
             <b-form-input
               id="password-field"
@@ -47,9 +47,9 @@
       </b-alert>
     </b-card>
     <b-card>
-        <b-card-text>
-            {{ $store.state.auth.strategy }}
-        </b-card-text>
+      <b-card-text>
+        {{ $auth.user }}
+      </b-card-text>
     </b-card>
   </b-container>
 </template>
@@ -76,25 +76,22 @@ export default {
   },
   methods: {
     loginUser() {
+      this.performLogin();
+      this.redirectAfterLogin();
+    },
+    async performLogin() {
       this.loginError = false;
-      this.$auth
-        .loginWith("local", {
+      try {
+        let response = await this.$auth.loginWith("local", {
           data: this.login,
-        })
-        .then((resp) => {
-          this.$auth.setToken("local", "Bearer " + resp.data.access);
-          this.$auth.setRefreshToken("local", resp.data.refresh);
-          this.$axios.setHeader("Authorization", "Bearer " + resp.data.access);
-          this.$auth.ctx.app.$axios.setHeader(
-            "Authorization",
-            "Bearer " + resp.data.access
-          );
-          if (resp.status === 200) this.$router.push({ name: "index" });
-        })
-        .catch((error) => {
-          console.log(error);
-          this.loginError = true;
         });
+      } catch (error) {
+        this.loginError = true;
+        console.log(error);
+      }
+    },
+    redirectAfterLogin() {
+      this.$router.push({ name: "index" });
     },
   },
   head() {
